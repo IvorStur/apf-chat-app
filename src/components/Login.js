@@ -11,13 +11,35 @@ import {
 from 'mdb-react-ui-kit';
 import { useState } from "react";
 
+// async function run() {
+//   try {
+//     // Connect the client to the server	(optional starting in v4.7)
+//     await client.connect();
+//     // Send a ping to confirm a successful connection
+//     await client.db("admin").command({ ping: 1 });
+//     console.log("Pinged your deployment. You successfully connected to MongoDB!");
+//     const myColl = client.db("admin").collection("apf_users")
+//     const querry = myColl.find({"username": formValue.username, "password": formValue.password})
+//     console.log(querry)
+
+
+
+//   } finally {
+//     // Ensures that the client will close when you finish/error
+//     await client.close();
+//   }
+// }
+
 function App() {
     const [formValue, setFormValue] = useState({
         username: '',
         password: '',
       });
 
-    const handleSubmit = (e) => {console.log(formValue)}
+    const handleSubmit = (e) => {
+      console.log(formValue)
+      
+    }
 
     const onChange = (e) => {
         setFormValue({ ...formValue, [e.target.name]: e.target.value });
