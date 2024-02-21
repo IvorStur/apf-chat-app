@@ -25,6 +25,10 @@ function App() {
     socket.emit("userLogin", formValue);
   };
 
+  socket.on("userLogged", (res) => {
+    console.log(res)
+  })
+
   const onChange = (e) => {
     setFormValue({ ...formValue, [e.target.name]: e.target.value });
   };
