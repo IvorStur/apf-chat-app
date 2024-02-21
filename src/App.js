@@ -4,8 +4,7 @@ import Login from "./components/Login";
 import { Home } from "./components/Home";
 import Layout from "./components/Layout";
 import CookieHome from "./cookies/cookie_home"
-import CookieLogin from "./cookies/cookie_login"
-import CookieRegister from "./cookies/cookies_register"
+import Register from "./components/Register";
 
 function App() {
    return (
@@ -13,11 +12,11 @@ function App() {
         <BrowserRouter>
          <Routes>
             <Route path="/" element={<Layout />}>
-               <Route index element={<Login />} />
-               <Route path="home" element={<Home />} />
-               <Route path="/Cookie" element={<CookieHome />} />
-               <Route path="/Login" element={<CookieLogin />} />
-               <Route path="/Register" element={<CookieRegister />} />
+               <Route index element={<Home />} />
+               <Route path="/login" element={<Login />} />
+               <Route path="/home" element={<Home />} />
+               <Route path="/cookie" element={<CookieHome />} />
+               <Route path="/register" element={<Register />} />
             </Route>
               
          </Routes>

@@ -9,11 +9,8 @@ import {
   MDBIcon,
 } from "mdb-react-ui-kit";
 import { useState } from "react";
-import io from "socket.io-client";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
-
-const socket = io("http://localhost:3002"); // Replace with your server URL
+import { useNavigate, Link } from "react-router-dom";
 
 function App() {
   const [formValue, setFormValue] = useState({
@@ -24,30 +21,20 @@ function App() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
-      const username = formValue.username
-      const password = formValue.password
-       await axios.post(
-          `http://localhost:5000/login`,
-          { username, password },
-          { withCredentials: true }
-       );
-       navigate("/home");
+        const username = formValue.username
+        const password = formValue.password
+       await axios.post(`http://localhost:5000/register`, {
+          username,
+          password,
+       });
+       navigate("/login"); // Redirect to login page after successful registration
     } catch (error) {
-       console.error("Login failed", error.response.data);
-       alert("Wrong password");
+       console.error("Registration failed", error.response.data);
+       alert("User already exist");
     }
  };
-
-  // const handleSubmit = (e) => {
-  //   console.log(formValue);
-  //   e.preventDefault();
-  //   socket.emit("userLogin", formValue);
-  // };
-
-  socket.on("userLogged", (res) => {
-    console.log(res)
-  })
 
   const onChange = (e) => {
     setFormValue({ ...formValue, [e.target.name]: e.target.value });
@@ -92,14 +79,13 @@ function App() {
         </div>
 
         <MDBBtn onClick={handleSubmit} className="mb-4">
-          Sign in
+          Register
         </MDBBtn>
 
         <div className="text-center">
           <p>
-            Not a member? <Link to={navigate("/register")} >Register</Link>
+            Aready have an account? <Link to={navigate("/login")} >Login</Link>
           </p>
-          <p>or sign up with:</p>
 
           <div
             className="d-flex justify-content-between mx-auto"

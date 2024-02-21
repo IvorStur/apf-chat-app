@@ -24,6 +24,7 @@ const Home = () => {
             );
             if (data.isAuthenticated) {
                setUsername(data.username);
+
             } else {
                navigate("/login");
             }

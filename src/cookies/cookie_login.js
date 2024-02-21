@@ -16,6 +16,7 @@ const Login = () => {
             { withCredentials: true }
          );
          navigate("/");
+         
       } catch (error) {
          console.error("Login failed", error.response.data);
          alert("Wrong password");
