@@ -12,6 +12,8 @@ export function Home() {
          await axios.get("http://localhost:5000/logout", {
             withCredentials: true,
          });
+         localStorage.setItem("loggedIn",false);
+         console.log(localStorage.getItem("loggedIn"))
          navigate("/login");
       } catch (error) {
          console.error("Logout failed", error);
@@ -37,13 +39,13 @@ export function Home() {
       verifyToken();
    }, [navigate]);
     return (
-        <div>
+        <div >
             <h2>Chat</h2>
             <ChatComponent />
             <h2>News</h2>
             <NewsComponent />
 
-            <button onClick={handleLogout}>Logout</button>
+            <button className="btn" onClick={handleLogout}>Logout</button>
 
         </div>
     )

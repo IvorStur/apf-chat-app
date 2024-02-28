@@ -8,7 +8,7 @@ import Register from "./components/Register";
 
 function App() {
    return (
-      <div>
+      <div className="min-h-screen bg-pink-200">
         <BrowserRouter>
          <Routes>
             <Route path="/" element={<Layout />}>

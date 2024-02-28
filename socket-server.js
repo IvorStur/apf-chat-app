@@ -1,5 +1,6 @@
 const express = require("express");
 const http = require("http");
+const { useState } = require("react");
 const socketIo = require("socket.io");
 
 const app = express();
@@ -31,6 +32,10 @@ function isValidToken(token) {
    return true; // Simplified for example purposes
 }
 
+
+// Storing messages for each room
+const messages = {};
+
 // Chat namespace
 const chat = io.of("/chat").on("connection", (socket) => {
    console.log("User connected to chat", socket.id);
@@ -50,6 +55,12 @@ const chat = io.of("/chat").on("connection", (socket) => {
       console.log(`${socket.id} joined room: ${room}`);
       socket.join(room);
       chat.to(room).emit("notification", `${socket.id} joined ${room}`);
+      io.to(socket.id).emit("current chat", messages)
+
+      // Sending current chat history to the user who joined the room
+      if (messages[room]) {
+         socket.emit("current chat", messages[room]);
+      }
    });
 
    // Leaving a room
@@ -62,9 +73,22 @@ const chat = io.of("/chat").on("connection", (socket) => {
    // Sending a chat message to a room with event acknowledgment
    socket.on("chat message", (room, msg, ackFn) => {
       chat.to(room).emit("chat message", msg);
+
+      // Storing messages for the room
+      if (!messages[room]) {
+         messages[room] = [];
+      }
+      const username = localStorage.getItem("username")
+      messages[room].push(msg);
+
       if (typeof ackFn === "function") {
          ackFn(`Delivered message to ${room}`);
       }
+   });
+   // Emitting current chat
+   socket.on("current chat", () => {
+      chat.to(room).emit("current chat", messages);
+
    });
 
    // Handling binary data (e.g., for file transfers)
@@ -122,7 +146,7 @@ setInterval(() => {
       const newsUpdate = `${topic} update at ${new Date().toLocaleTimeString()}`;
       // Send updates with the topic name included
       news.to(topic).emit("new article", topic, newsUpdate);
-      console.log(`Sent: ${newsUpdate}`);
+      // console.log(`Sent: ${newsUpdate}`);
    });
 }, 10000);
 

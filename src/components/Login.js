@@ -8,12 +8,13 @@ import {
   MDBBtn,
   MDBIcon,
 } from "mdb-react-ui-kit";
+import 'bootstrap/dist/css/bootstrap.css';
 import { useState } from "react";
-import io from "socket.io-client";
+// import io from "socket.io-client";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const socket = io("http://localhost:3002"); // Replace with your server URL
+// const socket = io("http://localhost:3001"); // Replace with your server URL
 
 function App() {
   const [formValue, setFormValue] = useState({
@@ -32,6 +33,9 @@ function App() {
           { username, password },
           { withCredentials: true }
        );
+       localStorage.setItem("username", username)
+       localStorage.setItem("loggedIn", true);
+       console.log(localStorage.getItem("loggedIn"))
        navigate("/home");
     } catch (error) {
        console.error("Login failed", error.response.data);
@@ -45,14 +49,15 @@ function App() {
   //   socket.emit("userLogin", formValue);
   // };
 
-  socket.on("userLogged", (res) => {
-    console.log(res)
-  })
+  // socket.on("userLogged", (res) => {
+  //   console.log(res)
+  // })
 
   const onChange = (e) => {
     setFormValue({ ...formValue, [e.target.name]: e.target.value });
   };
   return (
+    // <div className=" text-center  flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
     <MDBValidation>
       <MDBContainer className="p-3 my-5 d-flex flex-column w-50">
         <MDBValidationItem>
@@ -81,7 +86,7 @@ function App() {
           />
         </MDBValidationItem>
 
-        <div className="d-flex justify-content-between mx-3 mb-4">
+        <div className="text-center  d-flex justify-content-between mx-3 mb-4">
           <MDBCheckbox
             name="flexCheck"
             value=""
@@ -91,13 +96,13 @@ function App() {
           <a href="!#">Forgot password?</a>
         </div>
 
-        <MDBBtn onClick={handleSubmit} className="mb-4">
+        <MDBBtn onClick={handleSubmit} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded">
           Sign in
         </MDBBtn>
 
-        <div className="text-center">
+        <div className="text-center ">
           <p>
-            Not a member? <Link to={navigate("/register")} >Register</Link>
+            Not a member? <a href="/register">Register</a>
           </p>
           <p>or sign up with:</p>
 
@@ -144,6 +149,7 @@ function App() {
         </div>
       </MDBContainer>
     </MDBValidation>
+    // </div>
   );
 }
 

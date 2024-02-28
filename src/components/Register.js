@@ -9,8 +9,9 @@ import {
   MDBIcon,
 } from "mdb-react-ui-kit";
 import { useState } from "react";
+import 'bootstrap/dist/css/bootstrap.css';
 import axios from "axios";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function App() {
   const [formValue, setFormValue] = useState({
@@ -84,7 +85,7 @@ function App() {
 
         <div className="text-center">
           <p>
-            Aready have an account? <Link to={navigate("/login")} >Login</Link>
+            Aready have an account? <a href="/login">Login</a>
           </p>
 
           <div
