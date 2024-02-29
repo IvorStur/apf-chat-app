@@ -36,6 +36,7 @@ function App(props) {
       //  localStorage.setItem("username", username)
       //  localStorage.setItem("loggedIn", true);
       //  console.log(localStorage.getItem("loggedIn"))
+      localStorage.setItem("username", username);
       props.userLogged();
       navigate("/home");
     } catch (error) {
